@@ -8,14 +8,26 @@ public class Turret : MonoBehaviour
     // just ref to enemy prefab 
     private Transform target;
 
+    [Header("Attributes")]
     //varibal for range distance, and TurnSpeed, and enemyTag.. 
     public float range = 15f;
+    //
+    public float fireRate = 1f;
+    // 
+    private float FireCountDown = 0f;
+
+    [Header("unity setup Fields")]
+
     public float TurretTurnSpeed = 10f;
     private string enemyTag = "Enemy";
 
     //ref to emptyobject which should rotate head.thing in our model of turret
     public Transform PartToRotate;
 
+    public GameObject bulletPrefab;
+    public Transform FirePoint;
+
+    
     // "start" need to call InvokeReapeting matod which calling to UpdateTarget every 0.5sec
     private void Start()
     {
@@ -79,6 +91,27 @@ public class Turret : MonoBehaviour
         PartToRotate.rotation = Quaternion.Euler(0f, rotation.y, 0f);
 
 
+        //if count down will 0( fire cd) we shoot again
+        if (FireCountDown <= 0f)
+        {
+            Shoot();
+            FireCountDown = 1f / fireRate;
+        }
+        FireCountDown -= Time.deltaTime;
+    }
+
+    //shoot metod will show private target from this class to "Bullet" class
+    void Shoot()
+    {
+        // we create bulletGObj for ref 
+        GameObject bulletGO = (GameObject)Instantiate(bulletPrefab, FirePoint.position, FirePoint.rotation);
+
+        //and there we are finder of component 
+        Bullet bullet = bulletGO.GetComponent<Bullet>();
+
+        //and if != null then we call Seek from Bullet and write "target"
+        if (bullet != null)
+            bullet.Seek(target);
     }
 
     //just for show of target area in unity
