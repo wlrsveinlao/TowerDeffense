@@ -47,6 +47,8 @@ public class Bullet : MonoBehaviour
         GameObject EffectBullet = (GameObject)Instantiate(BulletEffect, transform.position, transform.rotation);
 
         Destroy(EffectBullet, 2f);
+
+        Destroy(target.gameObject);
         Destroy(gameObject);
 
     }
