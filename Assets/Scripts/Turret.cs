@@ -6,7 +6,7 @@ public class Turret : MonoBehaviour
 {
 
     // just ref to enemy prefab 
-    private Transform target;
+    public Transform target;
 
     [Header("Attributes")]
     //varibal for range distance, and TurnSpeed, and enemyTag.. 

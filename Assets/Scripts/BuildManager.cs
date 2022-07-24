@@ -19,7 +19,7 @@ public class BuildManager : MonoBehaviour
     }
     // ref of turret
     public GameObject standartTurretPrefab;
-    public GameObject anotherTurretPrefab;
+    public GameObject MissileLaunchTurretPrefab;
 
     private GameObject turretToBuild;
     public GameObject GetTurretToBuild()
