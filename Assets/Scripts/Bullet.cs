@@ -10,6 +10,7 @@ public class Bullet : MonoBehaviour
 
     public float speed = 100f;
 
+    public float explosionRadius = 0;
     //metod of bullet follow to target
     public void Seek(Transform _target)
     {
@@ -40,16 +41,43 @@ public class Bullet : MonoBehaviour
 
         //is that metod to follow bullet ---> enemy 
         transform.Translate(dir.normalized * distancePerFrame, Space.World);
+        transform.LookAt(target);
+
     }
     void HitTarget()
     {
         //we create GO effect becouse we should destroy effect and gameobj
         GameObject EffectBullet = (GameObject)Instantiate(BulletEffect, transform.position, transform.rotation);
 
-        Destroy(EffectBullet, 2f);
+        Destroy(EffectBullet, 5f);
 
-        Destroy(target.gameObject);
+        if(explosionRadius > 0f)
+        {
+            Explode();
+        }
+        else
+        {
+            Damage(target);
+        }
+
+        
         Destroy(gameObject);
 
+    }
+    void Damage(Transform enemy)
+    {
+        Destroy(enemy.gameObject);
+
+    }
+    void Explode()
+    {
+        Collider [] colliders = Physics.OverlapSphere(transform.position, explosionRadius);
+        foreach (Collider collider in colliders)
+        {
+            if(collider.tag == "Enemy")
+            {
+                Damage(collider.transform);
+            }
+        }
     }
 }
