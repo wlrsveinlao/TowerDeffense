@@ -32,8 +32,10 @@ public class WaveSpowner : MonoBehaviour
         }
         // is this need for fps 
         countdown -= Time.deltaTime;
+
+        countdown = Mathf.Clamp(countdown, 0f, Mathf.Infinity);
         // remove float thing of nubers to int, and return sec to main camera
-        countDownText.text = Mathf.Round(countdown).ToString() + " sec";
+        countDownText.text = string.Format("{0:00.00}", countdown);
     }
     // using Ienumerator to make routine, and fix copy enemyes
     IEnumerator SpawnWave()
