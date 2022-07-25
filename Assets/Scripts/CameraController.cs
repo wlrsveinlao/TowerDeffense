@@ -12,6 +12,9 @@ public class CameraController : MonoBehaviour
     public float scrollSpeed = 5f;
     public float minY = 10f;
     public float maxY = 80f;
+
+    public float minZ = 100f;
+    public float maxZ = 100f;
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
