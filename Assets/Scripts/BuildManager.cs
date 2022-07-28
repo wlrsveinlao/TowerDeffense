@@ -17,9 +17,6 @@ public class BuildManager : MonoBehaviour
         }
         instance = this;
     }
-    // ref of turret
-    public GameObject standartTurretPrefab;
-    public GameObject MissileLaunchTurretPrefab;
 
     public GameObject BuildEffect;
 

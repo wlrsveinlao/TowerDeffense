@@ -8,23 +8,29 @@ public class Turret : MonoBehaviour
     // just ref to enemy prefab 
     public Transform target;
 
-    [Header("Attributes")]
+    [Header("General")]
     //varibal for range distance, and TurnSpeed, and enemyTag.. 
     public float range = 15f;
-    //
+
+    [Header("Use Bullets (defoult)")]
+    public GameObject bulletPrefab;
     public float fireRate = 1f;
-    // 
     private float FireCountDown = 0f;
 
-    [Header("unity setup Fields")]
+    [Header("Use Laser")]
+    public bool useLaser = false;
+    public LineRenderer lineRenderer;
+    public ParticleSystem laserEffect;
+    public Light lightEffect;
 
+
+    [Header("unity setup Fields")]
     public float TurretTurnSpeed = 10f;
     private string enemyTag = "Enemy";
 
     //ref to emptyobject which should rotate head.thing in our model of turret
     public Transform PartToRotate;
 
-    public GameObject bulletPrefab;
     public Transform FirePoint;
 
     
@@ -75,9 +81,39 @@ public class Turret : MonoBehaviour
         
         if(target == null)
         {
+            if (useLaser)
+            {
+                if (lineRenderer.enabled)
+                {
+                    lineRenderer.enabled = false;
+                    laserEffect.Stop();
+                    lightEffect.enabled = false;
+                }
+                    
+            }
             return;
         }
 
+        LockOnTarget();
+
+        if (useLaser)
+        {
+            Laser();
+        }
+        else
+        {
+            //if count down will 0( fire cd) we shoot again
+            if (FireCountDown <= 0f)
+            {
+                Shoot();
+                FireCountDown = 1f / fireRate;
+            }
+            FireCountDown -= Time.deltaTime;
+        }
+    }
+
+    void LockOnTarget()
+    {
         //if we want to follow the object, we need our position to subtract the position of the object
         Vector3 dir = transform.position - target.position;
 
@@ -85,19 +121,28 @@ public class Turret : MonoBehaviour
         Quaternion LookRotation = Quaternion.LookRotation(dir);
 
         // rotation by quaternion.Lerp need to smooth rotate to another targe, by 3 thing(ref rotation, quaternion look metod, and speed of rotate)
-        Vector3 rotation = Quaternion.Lerp(PartToRotate.rotation, LookRotation, TurretTurnSpeed*Time.deltaTime).eulerAngles;
-        
+        Vector3 rotation = Quaternion.Lerp(PartToRotate.rotation, LookRotation, TurretTurnSpeed * Time.deltaTime).eulerAngles;
+
         // idk ^)
         PartToRotate.rotation = Quaternion.Euler(0f, rotation.y, 0f);
-
-
-        //if count down will 0( fire cd) we shoot again
-        if (FireCountDown <= 0f)
+    }
+    void Laser()
+    {
+        if (!lineRenderer.enabled)
         {
-            Shoot();
-            FireCountDown = 1f / fireRate;
+            lineRenderer.enabled = true;
+            laserEffect.Play();
+            lightEffect.enabled = true;
         }
-        FireCountDown -= Time.deltaTime;
+            
+        lineRenderer.SetPosition(0, FirePoint.position);
+        lineRenderer.SetPosition(1, target.position);
+
+        Vector3 dir = FirePoint.position - target.position;
+
+        laserEffect.transform.rotation = Quaternion.LookRotation(dir);
+
+        laserEffect.transform.position = target.position + dir.normalized * 1.5f;
     }
 
     //shoot metod will show private target from this class to "Bullet" class

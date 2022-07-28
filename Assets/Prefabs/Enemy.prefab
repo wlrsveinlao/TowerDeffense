@@ -113,3 +113,4 @@ MonoBehaviour:
   speed: 10
   health: 100
   Volue: 2
+  deathEffect: {fileID: 3099696673027405375, guid: 27dcb3d1235287a4cbebc2cefd9e42e7, type: 3}
