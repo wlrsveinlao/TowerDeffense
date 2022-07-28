@@ -6,10 +6,17 @@ public class PlayerStats : MonoBehaviour
 {
     public static int money;
     public int startMoney = 10;
+    
 
+    public static int Lives;
+    public int startLives = 20;
     private void Start()
     {
         money = startMoney;
+        Lives = startLives;
     }
+    
+
+
 
 }

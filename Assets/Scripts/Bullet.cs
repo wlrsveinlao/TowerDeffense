@@ -9,6 +9,7 @@ public class Bullet : MonoBehaviour
     public GameObject BulletEffect;
 
     public float speed = 100f;
+    public int bulletDamage = 50;
 
     public float explosionRadius = 0;
     //metod of bullet follow to target
@@ -66,8 +67,11 @@ public class Bullet : MonoBehaviour
     }
     void Damage(Transform enemy)
     {
-        Destroy(enemy.gameObject);
-
+        Enemy e = enemy.GetComponent<Enemy>();
+        if(e != null)
+        {
+            e.TakeDamage(bulletDamage);
+        }
     }
     void Explode()
     {
