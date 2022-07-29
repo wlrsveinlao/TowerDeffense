@@ -21,12 +21,33 @@ public class BuildManager : MonoBehaviour
     public GameObject BuildEffect;
 
     private TurretBlueprint turretToBuild;
+    private Node selectedNode;
 
+    public UIScript UIscript;
     public bool CanBuild { get { return turretToBuild!= null; } }
     public bool HasMoney { get { return PlayerStats.money >= turretToBuild.cast; } }
     public void SelectTurretToBuild(TurretBlueprint turret)
     {
         turretToBuild = turret;
+
+        DeselectNode();
+    }
+    public void SelectNode(Node node)
+    {
+        if (selectedNode == node)
+        {
+            DeselectNode();
+            return;
+        }
+        selectedNode = node;
+        turretToBuild = null;
+
+        UIscript.SetTarget(node);
+    }
+    public void DeselectNode()
+    {
+        selectedNode = null;
+        UIscript.Hide();
     }
 
     public void BuildTurretON(Node node)

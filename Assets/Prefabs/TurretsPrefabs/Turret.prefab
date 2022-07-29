@@ -280,8 +280,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   range: 15
+  bulletPrefab: {fileID: 2738275170452594494, guid: 1c94341257b94184b99a9a5d2a6288c8, type: 3}
   fireRate: 1
+  useLaser: 0
+  damageOverTime: 30
+  slowPct: 0.5
+  lineRenderer: {fileID: 0}
+  laserEffect: {fileID: 0}
+  lightEffect: {fileID: 0}
   TurretTurnSpeed: 10
   PartToRotate: {fileID: 2817723619922718745}
-  bulletPrefab: {fileID: 2738275170452594494, guid: 1c94341257b94184b99a9a5d2a6288c8, type: 3}
   FirePoint: {fileID: 7075221550996754915}
