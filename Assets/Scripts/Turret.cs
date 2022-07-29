@@ -6,7 +6,8 @@ public class Turret : MonoBehaviour
 {
 
     // just ref to enemy prefab 
-    public Transform target;
+    private Transform target;
+    private Enemy targetEnemy;
 
     [Header("General")]
     //varibal for range distance, and TurnSpeed, and enemyTag.. 
@@ -19,6 +20,10 @@ public class Turret : MonoBehaviour
 
     [Header("Use Laser")]
     public bool useLaser = false;
+
+    public int damageOverTime = 30;
+    public float slowPct = .5f;
+
     public LineRenderer lineRenderer;
     public ParticleSystem laserEffect;
     public Light lightEffect;
@@ -70,6 +75,7 @@ public class Turret : MonoBehaviour
         if (nearestEnemy != null && shortestDistance <= range)
         {
             target = nearestEnemy.transform;
+            targetEnemy = nearestEnemy.GetComponent<Enemy>();
         }
         else
         {
@@ -128,6 +134,8 @@ public class Turret : MonoBehaviour
     }
     void Laser()
     {
+        target.GetComponent<Enemy>().TakeDamage(damageOverTime * Time.deltaTime);
+        targetEnemy.Slow(slowPct);
         if (!lineRenderer.enabled)
         {
             lineRenderer.enabled = true;
@@ -144,7 +152,7 @@ public class Turret : MonoBehaviour
 
         laserEffect.transform.position = target.position + dir.normalized * 1.5f;
     }
-
+    
     //shoot metod will show private target from this class to "Bullet" class
     void Shoot()
     {
