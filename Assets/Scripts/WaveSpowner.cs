@@ -42,7 +42,7 @@ public class WaveSpowner : MonoBehaviour
     {
         // just count of waves 
         waveIndex++;
-
+        PlayerStats.round++; 
         // on every wave, enemy will creates +1 like wavecount
         for (int i = 0; i < waveIndex; i++)
         {
